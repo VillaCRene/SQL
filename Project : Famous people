@@ -1,0 +1,207 @@
+--In this project I was instructed to create various tables of my choosing relating  to famous people. I created a table of mcu actors, mcu movies, non mcu movies, and a table that used the primary keys from the mcu actor table and non mcu movies table that recorded what non mcu movies the actors appeared in.
+--I then wrote SELECT queries to discover and present readable tables.
+
+CREATE TABLE mcu_actors (id INTEGER PRIMARY KEY AUTOINCREMENT, actor TEXT, character TEXT, alias TEXT, first_appearance INTEGER, replaced_id INTEGER);
+
+INSERT INTO mcu_actors (actor, character, alias, first_appearance, replaced_id) VALUES
+    ("Robert Downey Jr.", "Tony Stark", "Iron Man", 1, NULL),
+    ("Terrence Howard", "James Rhodes", NULL, 1, NULL),
+    ("Edward Norton", "Bruce Banner", "Hulk", 2, NULL),
+    ("Mark Ruffalo", "Bruce Banner", "Hulk", 6, 3),
+    ("Chris Hemsworth", "Thor", "God of Thunder", 4, NULL),
+    ("Chris Evans", "Steve Rogers", "Captain America", 5, NULL),
+    ("Sebastian Stan", "Bucky Barnes", "The Winter Soldier", 5, NULL),
+    ("Scarlett Johanson", "Natasha Romanoff", "Black Widow", 3, NULL),
+    ("Jeremy Renner", "Clint Barton", "Hawkeye", 4, NULL),
+    ("Chris Pratt", "Peter Quill", "Starlord", 10, NULL),
+    ("Zoe Saldaña", "Gamora", NULL, 10, NULL),
+    ("Chadwick Boseman", "T'Challa", "Black Panther", 13, NULL),
+    ("Paul Rudd", "Scott Lang", "Ant-Man", 12, NULL),
+    ("Tom Hiddleston", "Loki", "God of Mischeif", 4, NULL),
+    ("Tom Holland", "Peter Parker", "Spider-Man", 13, NULL),
+    ("Zendaya", "Michelle Jones-Watson", "MJ", 16, NULL),
+    ("Benedict Cumberbatch", "Dr. Stephen Strange", "Dr. Strange", 14, NULL),
+    ("Anthony Mackie", "Sam Wilson", "Falcon", 9, NULL),
+    ("Florence Pugh", "Yelena Belova", NULL, 24, NULL),
+    ("Simu Liu", "Shang-Chi", "Shaun", 25, NULL),
+    ("Gemma Chan", "Sersi", NULL, 26, NULL),
+    ("Samuel L. Jackson", "Nick Fury", NULL, 1, NULL),
+    ("Cobie Smulders", "Maria Hill", "Agent Maria Hill", 6, NULL),
+    ("Don Cheadle", "James Rhodes", "War Machine", 3, 2),
+    ("Brie Larson", "Capt. Carol Danvers", "Captain Marvel", 21, NULL),
+    ("Michael Peña", "Luis", NULL, 12, NULL);
+
+CREATE TABLE mcu_movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, release_year INTEGER);
+
+INSERT INTO mcu_movies (title, release_year)
+VALUES 
+    ("Iron Man", 2008),
+    ("The Incredible Hulk", 2008),
+    ("Iron Man 2", 2010),
+    ("Thor", 2011),
+    ("Captain America: The First Avenger", 2011),
+    ("Marvel's The Avengers", 2012),
+    ("Iron Man 3", 2013),
+    ("Thor: The Dark World", 2013),
+    ("Captain America: The Winter Soldier", 2014),
+    ("Guardians of the Galaxy", 2014),
+    ("Avengers: Age of Ultron", 2015),
+    ("Ant-Man", 2015),
+    ("Captain America: Civil War", 2016),
+    ("Doctor Strange", 2016),
+    ("Guardians of the Galaxy Vol. 2", 2017),
+    ("Spider-Man: Homecoming", 2017),
+    ("Thor: Ragnarok", 2017),
+    ("Black Panther", 2018),
+    ("Avengers: Infinity War", 2018),
+    ("Ant-Man and the Wasp", 2018),
+    ("Captain Marvel", 2019),
+    ("Avengers: Endgame", 2019),
+    ("Spider-Man: Far From Home", 2019),
+    ("Black Widow", 2021),
+    ("Shang-Chi and the Legend of the Ten Rings", 2021),
+    ("Eternals", 2021),
+    ("Spider-Man: No Way Home", 2021),
+    ("Doctor Strange in the Multiverse of Madness", 2022),
+    ("Thor: Love and Thunder", 2022),
+    ("Black Panther: Wakanda Forever", 2022),
+    ("Ant-Man and the Wasp: Quantumania", 2023),
+    ("Guardians of the Galaxy Vol. 3", 2023),
+    ("The Marvels", 2023),
+    ("Fantastic Four", NULL);
+
+CREATE TABLE non_mcu_movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, release_year INTEGER);
+
+INSERT INTO non_mcu_movies (title, release_year)
+VALUES 
+    ("12 Strong", 2018),
+    ("Hurt Locker, The", 2008),
+    ("Man, The", 2005),
+    ("10 Years", 2011),
+    ("Scott Pilgrim vs the World", 2010),
+    ("American Hustle", 2013),
+    ("Amazing Grace", 2006),
+    ("Nanny Diaries", 2007),
+    ("Abraham Lincoln: Vampire Hunter", 2012),
+    ("All Creatures Here Below", 2018),
+    ("The Banker", 2020),
+    ("12 Years a Slave", 2013),
+    ("Oldboy", 2013),
+    ("Lego Movie, The", 2014),
+    ("War Horse", 2011),
+    ("Adjustment Bureau, The", 2011),
+    ("Chef", 2014),
+    ("Unicorn Store", 2017),
+    ("Traffic", 2000),
+    ("Perfect Score, The", 2004),
+    ("Freedomland", 2006),
+    ("S.W.A.T.", 2003),
+    ("Other Boleyn Girl", 2008),
+    ("Losers, The", 2010),
+    ("Zodiac", 2007),
+    ("Chaplin", 1992),
+    ("Star Trek", 2009),
+    ("Lego Movie 2: The Second Part, The", 2019),
+    ("They Came Together", 2014),
+    ("Delivery Man", 2013),
+    ("Her", 2013),
+    ("Martian, The", 2015),
+    ("The Current War: Director's Cut", 2017);
+
+CREATE TABLE mcu_actors_in_non_mcu_movies (id INTEGER PRIMARY KEY AUTOINCREMENT, mcu_actor_id INTEGER, non_mcu_movie_id INTEGER);
+
+INSERT INTO mcu_actors_in_non_mcu_movies (mcu_actor_id, non_mcu_movie_id)
+VALUES
+    (5, 1),
+    (26, 1),
+    (9, 2),
+    (18, 2),
+    (22, 3),
+    (18, 3),
+    (10, 4),
+    (18, 4),
+    (6, 5),
+    (25, 5),
+    (9, 6),
+    (26, 6),
+    (17, 7),
+    (8, 8),
+    (6, 8),
+    (18, 9),
+    (18, 11),
+    (22, 11),
+    (17, 12),
+    (22, 13),
+    (10, 14),
+    (23, 14),
+    (14, 15),
+    (17, 15),
+    (18, 16),
+    (8, 17),
+    (1, 17),
+    (25, 18),
+    (22, 18),
+    (22, 5),
+    (24, 19),
+    (8, 20),
+    (6, 20),
+    (22, 21),
+    (18, 21),
+    (22, 22),
+    (9, 22),
+    (8, 23),
+    (17, 23),
+    (11, 24),
+    (6, 24),
+    (4, 25),
+    (1, 25),
+    (1, 26),
+    (11, 27),
+    (6, 27),
+    (10, 28),
+    (23, 28),
+    (13, 29),
+    (23, 29),
+    (10, 30),
+    (23, 30),
+    (10, 31),
+    (8, 31),
+    (26, 32),
+    (7, 3),
+    (17, 33),
+    (15, 33);
+
+--list of MCU actors who replaced other actors
+SELECT a.actor, a.character, a.alias FROM mcu_actors AS a
+WHERE a.replaced_id > 0;
+
+SELECT a.actor, b.actor AS replaced, a.character, a.alias
+FROM mcu_actors AS a
+JOIN mcu_actors AS b
+ON a.replaced_id = b.id
+WHERE a.replaced_id > 0;
+
+--all actors in order of their first appearance and their first movie
+SELECT a.actor, b.title, b.release_year
+FROM mcu_actors AS a
+JOIN mcu_movies AS b
+ON a.first_appearance = b.id
+ORDER by a.first_appearance;
+
+--how many times do mcu_actors appear in the mcu_in_non_mcu_movies table
+SELECT a.actor, count (b.mcu_actor_id) as ct
+FROM mcu_actors AS a
+JOIN mcu_actors_in_non_mcu_movies as b
+ON a.id = b.mcu_actor_id
+GROUP BY a.actor
+ORDER BY ct desc;
+
+--movies with more than one mcu_actor in it
+SELECT nm.title, COUNT(anm.non_mcu_movie_id) as ct
+FROM non_mcu_movies AS nm
+JOIN mcu_actors_in_non_mcu_movies AS anm
+ON nm.id = anm.non_mcu_movie_id
+GROUP BY nm.title
+HAVING ct >1
+ORDER BY ct desc
+;
