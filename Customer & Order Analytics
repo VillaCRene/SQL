@@ -52,3 +52,11 @@ Parenthesis are important for subqueries!!!
 		LEFT JOIN BIT_DB.customers AS c
 		ON feb.orderID = c.order_id
 		WHERE feb.Quantity > 2;
+		
+8. List all the products sold in Los Angeles in February, and include how many of each were sold.
+
+	SELECT DISTINCT Product, sum(Quantity) AS Amt_Sold
+	    FROM FebSales
+	    WHERE location LIKE '%Los Angeles%'
+	    GROUP BY Product
+    	    ORDER BY Amt_Sold;
