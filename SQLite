@@ -1,0 +1,54 @@
+-- This is my first assignment in SQLite. I was provided a tables with monthly sales and a table with customers and order id. I used the data to answer the following:
+
+1. How many orders were placed in January?
+	9723
+	
+		SELECT count(*) from BIT_DB.JanSales;
+		
+2. How many of those orders were for an iPhone?
+	379
+		SELECT COUNT(*) from BIT_DB.JanSales as Jan
+		WHERE Jan.Product LIKE '%iphone%';
+		
+-- (note to self) IN SQLite, a single quotation italicizes the text in between it and the next single quotation. Switching to that.
+	
+3. Select the customer account numbers for all the orders that were placed in February.
+		
+		SELECT DISTINCT c.acctnum
+		FROM BIT_DB.FebSales as Feb
+		JOIN BIT_DB.customers as c
+		ON Feb.orderID = c.order_id;
+		
+4. Which product was the cheapest one sold in January, and what was the price? For this one, you are going to use the commands distinct and MIN(). Using 'SELECT distinct' will remove duplicate rows from your results. The MIN() command will allow you to select the smallest value from the price column. This is a hard one - see if you can do it, but don't be afraid to look at the hint or answer if you need to!
+	AAA Batteries (4-Pack) | 2.99
+		
+		SELECT DISTINCT(Product), price FROM BIT_DB.JanSales
+		WHERE price = (SELECT min(price) FROM BIT_DB.JanSales);
+		
+Parenthesis are important for subqueries!!!
+	
+5. What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the products).
+	
+		
+		SELECT product, Sum(price * quantity) AS revenue FROM BIT_DB.JanSales
+		GROUP BY product
+		HAVING revenue > 0;
+		
+6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+	
+		
+		SELECT Product, Quantity, (Price * Quantity) AS rev
+		FROM BIT_DB.FebSales
+		WHERE location = '548 Lincoln St, Seattle, WA 98101'
+		GROUP BY Product
+		HAVING rev > 0;
+		
+		
+7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+	890 | $3.86
+	
+		SELECT Count(c.acctnum), AVG(feb.Quantity) * feb.price AS avgSpent
+		FROM BIT_DB.FebSales AS feb
+		LEFT JOIN BIT_DB.customers AS c
+		ON feb.orderID = c.order_id
+		WHERE feb.Quantity > 2;
