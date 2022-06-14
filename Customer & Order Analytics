@@ -1,4 +1,4 @@
--- This is my first assignment in SQLite. I was provided a tables with monthly sales and a table with customers and order id. I used the data to answer the following:
+-- This is my first assignment in SQLite. I was provided a tables with monthly sales and a table with customers and order id. I used the data to quantify order and sales numbers.
 
 1. How many orders were placed in January?
 	9723
