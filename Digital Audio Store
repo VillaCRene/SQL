@@ -1,0 +1,150 @@
+--In this project I was provided a database for a digital music store and asked to review the data and find intersesting things to answer.
+
+-- How many total tracks are there in the store?
+SELECT count(*) AS track_ct
+    FROM tracks
+    ;
+
+-----Answer: 3603
+
+
+--How many distinct track names are there in the store?
+SELECT count(DISTINCT Name) AS track_ct
+    FROM tracks
+    ;
+
+-----Answer: 3257
+
+
+
+--When was the most recent Invoice Date?
+SELECT *
+    FROM invoices
+    ORDER BY InvoiceDate DESC
+    LIMIT 10
+    ;
+
+-----Answer: 2013-12-22
+
+
+--What was the most recent song purchased?
+SELECT t.Name
+    FROM invoice_items AS invIt
+    LEFT JOIN invoices AS i
+    ON invIt.InvoiceId = i.InvoiceId
+    LEFT JOIN tracks AS t
+    ON invIt.TrackID = t.TrackID
+    WHERE i.InvoiceDate = (SELECT MAX(InvoiceDate) FROM invoices)
+    ;
+    
+-----Answer: Hot Girl
+
+
+--Which country is represented the most in our customer table? How many times?
+SELECT Country, count(*) AS Customer_Count
+    FROM customers
+    GROUP BY Country
+    ORDER BY Customer_Count DESC
+    ;
+    
+-----Answer: USA | 13
+
+
+--Which employee is responsible for the highest amount of total sales? What is total sales value?
+SELECT e.EmployeeId, e.FirstName, e.LastName, SUM(i.Total) AS ttl_sales
+    FROM employees AS e
+    JOIN customers AS c
+    ON e.EmployeeId = c.SupportRepId
+    JOIN invoices AS i
+    ON c.CustomerID =i.CustomerID
+    GROUP BY e.EmployeeId
+    ORDER BY ttl_sales DESC
+    ;
+    
+-----Answer: Jane Peacock | $833.04
+
+
+--What Genre did Jane Peacock sell the most of?
+SELECT g.GenreId, g.Name, COUNT(i_i.TrackId) AS genre_count
+    FROM genres AS g
+    JOIN tracks AS t
+    ON g.GenreId = t.GenreId
+    JOIN invoice_items AS i_i
+    ON t.TrackId = i_i.TrackId
+    JOIN invoices AS i
+    ON i_i.InvoiceId = i.InvoiceId
+    JOIN customers AS c
+    ON i.CustomerId = c.CustomerId
+    WHERE c.SupportRepId = 3
+    Group BY g.GenreId
+    Order BY genre_count DESC
+    ;
+
+-----Answer: Rock | 304
+
+
+--Overall, which genre is most popular and what is it's count?
+SELECT g.GenreId, g.Name, COUNT(i_i.TrackId) AS GenreCt
+    FROM genres AS g
+    JOIN tracks AS t
+    ON g.GenreId = t.GenreId
+    JOIN invoice_items AS i_i
+    ON t.TrackId = i_i.TrackId
+    JOIN invoices AS i
+    ON i_i.InvoiceId = i.InvoiceId
+    JOIN customers AS c
+    ON i.CustomerId = c.CustomerId
+    GROUP By g.GenreId
+    ORDER BY GenreCt DESC
+    ;
+
+-----Answer: Rock | 835
+
+
+
+--Which artist appears the most on playlists?
+SELECT ar.Name, count(pt.TrackId) AS playlist_tracks
+    FROM artists AS ar
+    JOIN albums AS al
+    ON ar.ArtistId = al.ArtistId
+    JOIN tracks AS t
+    ON al.AlbumId = t.AlbumId
+    JOIN playlist_track as pt
+    ON t.TrackId = pt.TrackId
+    GROUP BY ar.Name
+    ORDER BY playlist_tracks DESC
+    ;
+    
+-----Answer: Iron Maiden | 516
+
+
+--Which employee is responsible for the highest amount of total sales in 2009? What is total sales value?
+SELECT e.EmployeeId, e.FirstName, e.LastName, SUM(i.Total) AS ttl_sales
+    FROM employees AS e
+    JOIN customers AS c
+    ON e.EmployeeId = c.SupportRepId
+    JOIN invoices AS i
+    ON c.CustomerID =i.CustomerID
+    WHERE i.InvoiceDate LIKE '%2009%'
+    GROUP BY e.EmployeeId
+    ORDER BY ttl_sales DESC
+    ;
+    
+-----Answer: Steve Johnson | 164.34
+
+
+
+--Create a query that will display every song name, artist, album, genre, and media format
+SELECT t.Name AS Track_Name, ar.Name AS Artist, al.Title AS Album, g.Name AS Genre, m.Name AS Media_Type
+    FROM tracks AS t
+    JOIN albums AS al
+    ON t.AlbumId = al.AlbumId
+    JOIN artists AS ar
+    ON al.ArtistId = ar.ArtistId
+    JOIN genres AS g
+    ON t.GenreId = g.GenreId
+    JOIN media_types as m
+    ON t.MediaTypeId = m.MediaTypeId
+    ;
+    
+-----Answer: Query above.
